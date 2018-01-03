@@ -41,6 +41,7 @@ int main() {
     int ch, maxY, maxX;
     int curX, curY;
     int gameBegY, gameBegX, gameMaxY;
+    int matrixX, matrixY;
     int chanMaxY, chanCurY = 1;
     WINDOW *barWindow, *statusWindow, *gameWindow;
     WINDOW *changelingWindow;
@@ -97,9 +98,6 @@ int main() {
     ustaw->mine_plant(maxX - 1, gameMaxY, tab);
 
     ////////////////////////////////////////////////////
-
-    areaOfEffect *pokaz;
-    //pokaz->show_area(x, y, tab);  //TODO do wywołania funkcji potrzbuje koorydynatów wybranego pola
 
     win *wygrana;
     wygrana->if_win(maxX - 1, gameMaxY, tab); //do sprawdzania wygranej
@@ -187,13 +185,42 @@ int main() {
                     mvwprintw(changelingWindow, chanCurY, 2, "X: %d\t\t", curX);
                     mvwprintw(changelingWindow, ++chanCurY, 2, "Y: %d\t\t", curY);
                     ++chanCurY;
+                    matrixX = curX - gameBegX;
+                    matrixY = curY - gameBegY;
+
+
+                    if(tab[matrixX][matrixY].value == 9){
+                        WINDOW *thanksWindow = newwin((int) (maxY / 12), (int) (maxX / 6), (int) (maxY * 0.2),
+                                                      (int) (maxX * 0.2));
+                        box(thanksWindow, 0, 0);
+                        wbkgd(thanksWindow, COLOR_PAIR(2));
+
+                        mvwprintw(thanksWindow, 1, 1, "BOOM!");
+                        wrefresh(thanksWindow);
+                        getch();
+                        isRunning = false;
+                    }
+                    else{
+                        areaOfEffect *pokaz;
+                        pokaz->show_area(matrixX, matrixY, tab);
+                    }
+
+                    for (int i = 0; i<maxX-1 ; i++){
+                        for(int j = 0; j<gameMaxY; j++){
+
+
+                            if (tab[matrixX][matrixY].show == true){
+                                if(tab[matrixX][matrixY].value == 0) //wartość 0 to puste pole
+                                    cout<<" ";
+                                else
+                                    cout<<tab[matrixX][matrixY].value; // wartosć od 1-8 do wyświetlenia
+
+                            }
+                        }
+                    }
+
                     wrefresh(changelingWindow);
                     move(curY, curX);
-                    //curX & curY here should do all the charm related to the matrix
-
-                    areaOfEffect *pokaz;
-                    //pokaz->show_area(x, y, tab);  //TODO do wywołania funkcji potrzbuje koorydynatów wybranego pola
-
                 }
                 break;
             }
