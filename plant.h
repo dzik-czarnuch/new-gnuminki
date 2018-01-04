@@ -15,7 +15,7 @@ public:
     time_t t;
 
     plant();
-    bool set_mine(int, int, square **tab); //rozstawianie min na polu
+    bool set_mine(int, int, int, int, square **tab); //rozstawianie min na polu
     int mine_plant(int, int, square **tab); //losowanie ominowanych pol
     ~plant();
 

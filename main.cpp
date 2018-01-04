@@ -22,10 +22,6 @@
  * Politechnika Poznańska, 2017
  */
 
-/*
- *  TODO: Interaction with the board (will be done after merge)
- */
-
 void debug(const char *input, WINDOW *changelingWindow, int &chanCurY, int chanMaxY) {
     mvwprintw(changelingWindow, chanCurY, 2, input);
     wrefresh(changelingWindow);
@@ -63,9 +59,9 @@ int main() {
     init_pair(5, COLOR_WHITE, 0); //1
     init_pair(6, COLOR_GREEN, 0); //2
     init_pair(7, COLOR_CYAN, 0); //3
-    init_pair(8, COLOR_RED, 0); //4
+    init_pair(8, COLOR_MAGENTA, 0); //4
     init_pair(9, COLOR_BLUE, 0); //5
-    init_pair(10, COLOR_MAGENTA, 0); //6
+    init_pair(10, COLOR_RED, 0); //6
     init_pair(11, COLOR_BLACK, COLOR_MAGENTA); //7
     init_pair(12, COLOR_WHITE, COLOR_BLACK); //8
 
@@ -95,30 +91,18 @@ int main() {
 
     int matrixMaxX = maxX - getmaxx(changelingWindow) - 2;
     int matrixMaxY = gameMaxY - 1;
-    int bombCount = (matrixMaxX*matrixMaxY) * 0.1;
+    int bombCount = (int)((matrixMaxX*matrixMaxY) * 0.1);
     mvwprintw(statusWindow, 1, 2, "Mines\t: %d\t", bombCount);
 
     mvwprintw(statusWindow, 3, 2, "MaxX\t: %d\t", maxX);
     mvwprintw(statusWindow, 4, 2, "gameMaxY\t: %d\t", gameMaxY);
 
     wrefresh(statusWindow);
-    ////////////////////////////////////////////////////////////////////////////////////////
 
     square **tab;
-    //TODO  Zrobić klasę, w której będą 3 powyższe pola. Dalej w klasie tej dodać konstruktor, który wykona poniższy kod.
     tab = new square *[matrixMaxX];
     for (int i = 0; i < matrixMaxX; i++)
         tab[i] = new square[matrixMaxY];
-
-    //////////////////////////////////////////////////// ustawianie min, generowanie planszy
-
-
-    ////////////////////////////////////////////////////
-
-    win *wygrana;
-    wygrana->if_win(matrixMaxX, matrixMaxY, tab); //do sprawdzania wygranej
-
-    /////////////////////////////////////////////////////////////////////////////////////////
 
     while (isRunning) {
         ch = getch();
@@ -187,6 +171,14 @@ int main() {
                     }
                     move(curY, curX);
                     wrefresh(statusWindow);
+                } else {
+                    try {
+                        throw 1;
+                    }
+                    catch (int e){
+                        debug("Exception: Game has not started\t\t", changelingWindow, chanCurY, chanMaxY);
+
+                    }
                 }
                 break;
             }
@@ -205,7 +197,6 @@ int main() {
                                 addch(' ');
                                 areaOfEffect *pokaz;
                                 pokaz->show_area(matrixMaxX, matrixMaxY, matrixX, matrixY, getmaxx(changelingWindow), tab);
-                                //TODO: Fix AoE
                                 break;
                             }
                             case 1: {
@@ -277,13 +268,26 @@ int main() {
                         }
                     }
                     tab[matrixX][matrixY].show = true;
+
+                    win *wygrana;
+                    wygrana->if_win(matrixMaxX, matrixMaxY, tab);
+
                     mvwprintw(statusWindow, 3, 2, "Value\t: %d\t\t", tab[matrixX][matrixY].value, 0, maxY, maxX);
 
                     wrefresh(statusWindow);
                     wrefresh(gameWindow);
                     wrefresh(changelingWindow);
                     move(curY, curX);
+                } else {
+                    try {
+                        throw 1;
+                    }
+                    catch (int e){
+                        debug("Exception: Game has not started\t\t", changelingWindow, chanCurY, chanMaxY);
+
+                    }
                 }
+
                 break;
             }
 
