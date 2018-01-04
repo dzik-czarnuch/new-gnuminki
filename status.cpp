@@ -9,7 +9,6 @@ WINDOW *status(int maxY, int maxX) {
     wbkgd(statusWindow, COLOR_PAIR(1));
 
     mvwprintw(statusWindow, 0, (getmaxx(statusWindow) / 2) - 3, " Status "); //-2 'cause borders
-    mvwprintw(statusWindow, 1, 2, "Mines\t: %d\t", 0, 0, maxY, maxX);
     mvwprintw(statusWindow, 2, 2, "Flags\t: %d\t", 0, 0, maxY, maxX);
 
     wrefresh(statusWindow);

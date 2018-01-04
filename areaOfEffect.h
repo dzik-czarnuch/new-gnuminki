@@ -12,7 +12,7 @@ class areaOfEffect : public square {
 public:
     areaOfEffect();
 
-    void show_area(int x, int y, square **tab); //odslanianie obszarow pustych
+    void show_area(int xsize, int ysize, int x, int y, square **tab); //odslanianie obszarow pustych
     ~areaOfEffect();
 };
 

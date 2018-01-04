@@ -36,7 +36,7 @@ int plant::mine_plant(int xsize, int ysize, square **tab) {
 
 
     int pos_x, pos_y;
-    int mine_number = (xsize * ysize) * 0.15;
+    int mine_number = (int)((xsize * ysize) * 0.1);
 
    // srand((unsigned) time(&t));  //TODO: sprawdzić jak to dokładnie działa
     srand(time(NULL));

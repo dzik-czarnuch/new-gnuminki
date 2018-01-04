@@ -37,7 +37,6 @@ int main() {
     bool gameStarted = false;
     bool isRunning = true;
     int flagCount = 0;
-    int bombCount = 0;
     int ch, maxY, maxX;
     int curX, curY;
     int gameBegY, gameBegX, gameMaxY;
@@ -82,31 +81,34 @@ int main() {
     curX = gameBegX;
     move(0, 0);
 
+    int matrixMaxX = maxX - getmaxx(changelingWindow) - 2;
+    int matrixMaxY = gameMaxY - 1;
+    int bombCount = (matrixMaxX*matrixMaxY) * 0.1;
+    mvwprintw(statusWindow, 1, 2, "Mines\t: %d\t", bombCount);
+
+    mvwprintw(statusWindow, 3, 2, "MaxX\t: %d\t", maxX);
+    mvwprintw(statusWindow, 4, 2, "gameMaxY\t: %d\t", gameMaxY);
+
+    wrefresh(statusWindow);
     ////////////////////////////////////////////////////////////////////////////////////////
 
     square **tab;
     //TODO  Zrobić klasę, w której będą 3 powyższe pola. Dalej w klasie tej dodać konstruktor, który wykona poniższy kod.
-    tab = new square *[maxX - 1];
-    for (int i = 0; i < maxX - 1; i++)
-        tab[i] = new square[gameMaxY];
+    tab = new square *[matrixMaxX];
+    for (int i = 0; i < matrixMaxX; i++)
+        tab[i] = new square[matrixMaxY];
 
     //////////////////////////////////////////////////// ustawianie min, generowanie planszy
     board *tablica = new board();
-    tablica->create_board(maxX - 1, gameMaxY, tab);
+    tablica->create_board(matrixMaxX, matrixMaxY, tab);
 
     plant *ustaw;
-    ustaw->mine_plant(maxX - 1, gameMaxY, tab);
+    ustaw->mine_plant(matrixMaxX, matrixMaxY, tab);
 
     ////////////////////////////////////////////////////
 
     win *wygrana;
-    wygrana->if_win(maxX - 1, gameMaxY, tab); //do sprawdzania wygranej
-
-
-    //TODO to umieścić w destruktorze nowej klasy
-    for (int i = 0; i < maxX - 1; i++)
-        delete[]tab[i];
-    delete[]tab;
+    wygrana->if_win(matrixMaxX, matrixMaxY, tab); //do sprawdzania wygranej
 
     /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -188,8 +190,11 @@ int main() {
                     matrixX = curX - gameBegX;
                     matrixY = curY - gameBegY;
 
+                    if (!tab[matrixX][matrixY].show)
+                        tab[matrixX][matrixY].show == true;
 
                     if(tab[matrixX][matrixY].value == 9){
+                        addch('B');
                         WINDOW *thanksWindow = newwin((int) (maxY / 12), (int) (maxX / 6), (int) (maxY * 0.2),
                                                       (int) (maxX * 0.2));
                         box(thanksWindow, 0, 0);
@@ -199,26 +204,60 @@ int main() {
                         wrefresh(thanksWindow);
                         getch();
                         isRunning = false;
-                    }
-                    else{
+                    }  else {
                         areaOfEffect *pokaz;
-                        pokaz->show_area(matrixX, matrixY, tab);
+                        pokaz->show_area(matrixMaxX, matrixMaxY,matrixX, matrixY, tab);
                     }
 
-                    for (int i = 0; i<maxX-1 ; i++){
-                        for(int j = 0; j<gameMaxY; j++){
-
-
-                            if (tab[matrixX][matrixY].show == true){
-                                if(tab[matrixX][matrixY].value == 0) //wartość 0 to puste pole
-                                    cout<<" ";
-                                else
-                                    cout<<tab[matrixX][matrixY].value; // wartosć od 1-8 do wyświetlenia
-
-                            }
+                    switch (tab[matrixX][matrixY].value){
+                        case 0: {
+                            addch(' ');
+                            break;
                         }
+                        case 1: {
+                            addch('1');
+                            break;
+                        }
+                        case 2: {
+                            addch('2');
+                            break;
+                        }
+                        case 3: {
+                            addch('3');
+                            break;
+                        }
+                        case 4: {
+                            addch('4');
+                            break;
+                        }
+                        case 5: {
+                            addch('5');
+                            break;
+                        }
+                        case 6: {
+                            addch('6');
+                            break;
+                        }
+                        case 7: {
+                            addch('7');
+                            break;
+                        }
+                        case 8: {
+                            addch('8');
+                            break;
+                        }
+                        case 10: {
+                            addch('G');
+                            break;
+                        }
+                        default:
+                            addch('X');//do nothing
+                            break;
                     }
+                    mvwprintw(statusWindow, 3, 2, "Value\t: %d\t\t", tab[matrixX][matrixY].value, 0, maxY, maxX);
 
+                    wrefresh(statusWindow);
+                    wrefresh(gameWindow);
                     wrefresh(changelingWindow);
                     move(curY, curX);
                 }
@@ -229,7 +268,7 @@ int main() {
                 debug("New game started\t\t", changelingWindow, chanCurY, chanMaxY);
                 system("./highscore.sh > /dev/null 2>&1");
                 gameStarted = true;
-                flagCount = bombCount = 0;
+                flagCount = 0;
                 barWindow = bar(maxY);
                 gameWindow = game(maxY,
                                   getmaxx(changelingWindow));
@@ -238,6 +277,8 @@ int main() {
                                               getmaxy(statusWindow));
                 statusWindow = status(maxY / 5,
                                       (int) (maxX / 4.8));
+                mvwprintw(statusWindow, 1, 2, "Mines\t: %d\t", bombCount);
+                wrefresh(statusWindow);
 
                 getbegyx(gameWindow, gameBegY, gameBegX);
                 gameBegY += 1;
@@ -280,6 +321,9 @@ int main() {
         }
         refresh();
     }
+    for (int i = 0; i < matrixMaxX; i++)
+        delete[]tab[i];
+    delete[]tab;
     endwin();
     return 0;
 }
