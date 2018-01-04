@@ -193,7 +193,7 @@ int main() {
                     if (!tab[matrixX][matrixY].show)
                         tab[matrixX][matrixY].show == true;
 
-                    if(tab[matrixX][matrixY].value == 9){
+                    if(tab[matrixX][matrixY].value == 9) {
                         addch('B');
                         WINDOW *thanksWindow = newwin((int) (maxY / 12), (int) (maxX / 6), (int) (maxY * 0.2),
                                                       (int) (maxX * 0.2));
@@ -204,14 +204,14 @@ int main() {
                         wrefresh(thanksWindow);
                         getch();
                         isRunning = false;
-                    }  else {
-                        areaOfEffect *pokaz;
-                        pokaz->show_area(matrixMaxX, matrixMaxY,matrixX, matrixY, tab);
                     }
 
                     switch (tab[matrixX][matrixY].value){
                         case 0: {
                             addch(' ');
+                            //areaOfEffect *pokaz;
+                            //pokaz->show_area(matrixMaxX, matrixMaxY,matrixX, matrixY,getmaxx(changelingWindow), tab);
+                            //TODO: Fix AoE
                             break;
                         }
                         case 1: {
@@ -246,12 +246,8 @@ int main() {
                             addch('8');
                             break;
                         }
-                        case 10: {
-                            addch('G');
-                            break;
-                        }
                         default:
-                            addch('X');//do nothing
+                            //do nothing
                             break;
                     }
                     mvwprintw(statusWindow, 3, 2, "Value\t: %d\t\t", tab[matrixX][matrixY].value, 0, maxY, maxX);
