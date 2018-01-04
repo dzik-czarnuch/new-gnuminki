@@ -17,7 +17,7 @@ void areaOfEffect::show_area(int xsize, int ysize, int x, int y, int offset, squ
     if (y < 0 || y > ysize) return;
     if (tab[x][y].show) return;
 
-    if (tab[x][y].value != 9 && !tab[x][y].show) {
+    if (tab[x][y].value != 9) {
         tab[x][y].show = true;
         switch (tab[x][y].value){
             case 0: {
@@ -57,7 +57,6 @@ void areaOfEffect::show_area(int xsize, int ysize, int x, int y, int offset, squ
                 break;
             }
             default:
-                mvaddch(boardY,boardX,'X');
                 //do nothing
                 break;
         }
