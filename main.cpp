@@ -49,16 +49,28 @@ int main() {
     raw();
     noecho();
     keypad(stdscr, true);
+
     start_color();
     short COLOR_BG = 1;
     short COLOR_TEXT = 3;
     init_color(COLOR_BG, 80, 11, 110);
     init_color(COLOR_TEXT, 504, 504, 0);
     init_pair(1, COLOR_TEXT, COLOR_BG);
-    attron(COLOR_PAIR(1) | A_BLINK);
     init_pair(2, COLOR_WHITE, COLOR_BLUE);          //popup & bar default
     init_pair(3, COLOR_WHITE, COLOR_MAGENTA);   //debug default
+
+    init_pair(4, 0, COLOR_TEXT); //flag
+    init_pair(5, COLOR_WHITE, 0); //1
+    init_pair(6, COLOR_GREEN, 0); //2
+    init_pair(7, COLOR_CYAN, 0); //3
+    init_pair(8, COLOR_RED, 0); //4
+    init_pair(9, COLOR_BLUE, 0); //5
+    init_pair(10, COLOR_MAGENTA, 0); //6
+    init_pair(11, COLOR_BLACK, COLOR_MAGENTA); //7
+    init_pair(12, COLOR_WHITE, COLOR_BLACK); //8
+
     wbkgd(stdscr, COLOR_PAIR(1));
+
     getmaxyx(stdscr, maxY, maxX);
     refresh();
     barWindow = bar(maxY);
@@ -157,7 +169,9 @@ int main() {
 
                     switch (square) {
                         case '.': {
+                            attron(COLOR_PAIR(4));
                             addch('F');
+                            attroff(COLOR_PAIR(4));
                             mvwprintw(statusWindow, 1, 2, "Mines\t: %d\t", --bombCount);
                             mvwprintw(statusWindow, 2, 2, "Flags\t: %d\t", ++flagCount);
                             break;
@@ -195,39 +209,57 @@ int main() {
                                 break;
                             }
                             case 1: {
+                                attron(COLOR_PAIR(5));
                                 addch('1');
+                                attroff(COLOR_PAIR(5));
                                 break;
                             }
                             case 2: {
+                                attron(COLOR_PAIR(6));
                                 addch('2');
+                                attroff(COLOR_PAIR(6));
                                 break;
                             }
                             case 3: {
+                                attron(COLOR_PAIR(7));
                                 addch('3');
+                                attroff(COLOR_PAIR(7));
                                 break;
                             }
                             case 4: {
+                                attron(COLOR_PAIR(8));
                                 addch('4');
+                                attroff(COLOR_PAIR(8));
                                 break;
                             }
                             case 5: {
+                                attron(COLOR_PAIR(9));
                                 addch('5');
+                                attroff(COLOR_PAIR(9));
                                 break;
                             }
                             case 6: {
+                                attron(COLOR_PAIR(10));
                                 addch('6');
+                                attroff(COLOR_PAIR(10));
                                 break;
                             }
                             case 7: {
+                                attron(COLOR_PAIR(11));
                                 addch('7');
+                                attroff(COLOR_PAIR(11));
                                 break;
                             }
                             case 8: {
+                                attron(COLOR_PAIR(12));
                                 addch('8');
+                                attroff(COLOR_PAIR(12));
                                 break;
                             }
                             case 9: {
+                                attron(COLOR_PAIR(3));
                                 addch('B');
+                                attroff(COLOR_PAIR(3));
                                 WINDOW *thanksWindow = newwin((int) (maxY / 12), (int) (maxX / 6), (int) (maxY * 0.2),
                                                               (int) (maxX * 0.2));
                                 box(thanksWindow, 0, 0);

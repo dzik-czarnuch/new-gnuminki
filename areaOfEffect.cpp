@@ -25,35 +25,51 @@ void areaOfEffect::show_area(int xsize, int ysize, int x, int y, int offset, squ
                 break;
             }
             case 1: {
+                attron(COLOR_PAIR(5));
                 mvaddch(boardY,boardX,'1');
+                attroff(COLOR_PAIR(5));
                 break;
             }
             case 2: {
+                attron(COLOR_PAIR(6));
                 mvaddch(boardY,boardX,'2');
+                attroff(COLOR_PAIR(6));
                 break;
             }
             case 3: {
+                attron(COLOR_PAIR(7));
                 mvaddch(boardY,boardX,'3');
+                attroff(COLOR_PAIR(7));
                 break;
             }
             case 4: {
+                attron(COLOR_PAIR(8));
                 mvaddch(boardY,boardX,'4');
+                attroff(COLOR_PAIR(8));
                 break;
             }
             case 5: {
+                attron(COLOR_PAIR(9));
                 mvaddch(boardY,boardX,'5');
+                attroff(COLOR_PAIR(9));
                 break;
             }
             case 6: {
+                attron(COLOR_PAIR(10));
                 mvaddch(boardY,boardX,'6');
+                attroff(COLOR_PAIR(10));
                 break;
             }
             case 7: {
+                attron(COLOR_PAIR(11));
                 mvaddch(boardY,boardX,'7');
+                attroff(COLOR_PAIR(11));
                 break;
             }
             case 8: {
+                attron(COLOR_PAIR(12));
                 mvaddch(boardY,boardX,'8');
+                attroff(COLOR_PAIR(12));
                 break;
             }
             default:

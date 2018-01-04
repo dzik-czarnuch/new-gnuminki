@@ -22,7 +22,7 @@ bool plant::set_mine(int x, int y, square **tab) {
 
             for (int j = -1; j < 2; j++) {
                 if ((pos_x + j) < 0 || (pos_y + i) < 0) continue; //border
-                if ((pos_x + j) > 9 || (pos_y + i) > 9) continue; //border
+                if ((pos_x + j) > 9r || (pos_y + i) > 9) continue; //border
 
                 if (tab[pos_x + j][pos_y + i].value == 9) continue; //mine
                 tab[pos_x + j][pos_y + i].value += 1;
